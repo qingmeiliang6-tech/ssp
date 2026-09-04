@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>非收运点作业统计 - 五征智慧环卫平台</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f4f7fa; }
+        .sidebar-sub-item-active { color: #3b82f6; font-weight: bold; }
+        .text-weight { color: #f97316; font-weight: bold; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-slate-900">
+<!-- 左侧导航 -->
+<aside class="w-64 bg-[#001529] text-slate-400 flex flex-col shrink-0">
+<div class="h-16 flex items-center px-6 space-x-3 bg-[#002140]">
+<span class="text-white text-xl font-bold tracking-wider">WUZHENG</span>
+</div>
+<nav class="flex-1 overflow-y-auto py-4 custom-scrollbar">
+<!-- 车辆监管 -->
+<div class="mb-2">
+<div class="flex items-center justify-between px-6 py-3 hover:text-white cursor-pointer group nav-header">
+<div class="flex items-center space-x-3">
+<iconify-icon class="text-lg" icon="mdi:truck-outline"></iconify-icon>
+<span class="text-sm">车辆监管</span>
+</div>
+<iconify-icon class="text-xs transition-transform" icon="mdi:chevron-down"></iconify-icon>
+</div>
+<div class="bg-[#000c17] hidden">
+<a class="flex items-center h-10 pl-12 text-sm hover:text-white transition-colors" href="trajectory-playback.html">轨迹回放</a>
+<a class="flex items-center h-10 pl-12 text-sm hover:text-white transition-colors" href="work-statistics.html">作业统计</a>
+</div>
+</div>
+<!-- 信息管理 -->
+<div class="mb-2">
+<div class="flex items-center justify-between px-6 py-3 hover:text-white cursor-pointer group nav-header">
+<div class="flex items-center space-x-3">
+<iconify-icon class="text-lg" icon="mdi:database-outline"></iconify-icon>
+<span class="text-sm">信息管理</span>
+</div>
+<iconify-icon class="text-xs transition-transform" icon="mdi:chevron-down"></iconify-icon>
+</div>
+<div class="hidden">
+<a class="flex items-center h-10 pl-12 text-sm hover:text-white transition-colors" href="vehicle-management.html">车辆管理</a>
+<a class="flex items-center h-10 pl-12 text-sm hover:text-white transition-colors" href="facility-management.html">设施管理</a>
+</div>
+</div>
+<!-- 数据统计 -->
+<div class="mb-2">
+<div class="flex items-center justify-between px-6 py-3 text-white bg-[#001529] cursor-pointer group nav-header">
+<div class="flex items-center space-x-3">
+<iconify-icon class="text-lg" icon="mdi:chart-bar"></iconify-icon>
+<span class="text-sm">数据统计</span>
+</div>
+<iconify-icon class="text-xs transition-transform rotate-180" icon="mdi:chevron-down"></iconify-icon>
+</div>
+<div class="">
+<!-- 二级菜单: 作业数据统计 -->
+<div class="flex items-center justify-between pl-12 py-3 text-white cursor-pointer group/sub sub-nav-header">
+<span class="text-sm font-medium text-blue-400">作业数据统计</span>
+<iconify-icon class="text-xs mr-6 transition-transform rotate-180" icon="mdi:chevron-down"></iconify-icon>
+</div>
+<div class="bg-[#000c17]">
+<a class="flex items-center h-10 pl-16 text-sm hover:text-white transition-colors" href="single-vehicle-report.html">单车作业明细</a>
+<a class="flex items-center h-10 pl-16 text-sm hover:text-white transition-colors" href="collection-point-report.html">收运点作业情况表</a>
+<a class="flex items-center h-10 pl-16 text-sm sidebar-sub-item-active" href="non-collection-point-report.html">非收运点作业统计</a>
+</div>
+</div>
+</div>
+</nav>
+</aside>
+<!-- 主内容区 -->
+<main class="flex-1 flex flex-col min-w-0">
+<!-- 顶部通栏 -->
+<header class="h-16 bg-white border-b flex items-center justify-between px-8 shrink-0">
+<div class="flex items-center space-x-2 text-sm text-slate-500">
+<span>数据统计</span>
+<iconify-icon icon="mdi:chevron-right"></iconify-icon>
+<span>作业数据统计</span>
+<iconify-icon icon="mdi:chevron-right"></iconify-icon>
+<span class="text-slate-900 font-medium">非收运点作业统计</span>
+</div>
+<div class="flex items-center space-x-6">
+<span class="text-xs text-slate-400">2026-05-11</span>
+<div class="flex items-center space-x-2">
+<iconify-icon class="text-2xl text-blue-600" icon="mdi:account-circle"></iconify-icon>
+<span class="text-sm font-medium">管理员</span>
+</div>
+<button class="text-slate-400 hover:text-red-500 transition-colors">
+<iconify-icon class="text-xl" icon="mdi:logout"></iconify-icon>
+</button>
+</div>
+</header>
+<!-- 内容区域 -->
+<div class="flex-1 overflow-y-auto p-6">
+<!-- 查询面板 -->
+<div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mb-6">
+<div class="grid grid-cols-4 gap-x-6 gap-y-4">
+<div class="flex items-center space-x-2">
+<label class="text-sm text-slate-600 w-24 shrink-0">车牌号</label>
+<input class="flex-1 h-9 border border-slate-200 rounded px-3 text-sm focus:outline-none focus:border-blue-500" placeholder="请输入车牌号" type="text"/>
+</div>
+<div class="flex items-center space-x-2">
+<label class="text-sm text-slate-600 w-24 shrink-0">自编号</label>
+<input class="flex-1 h-9 border border-slate-200 rounded px-3 text-sm focus:outline-none focus:border-blue-500" placeholder="请输入自编号" type="text"/>
+</div>
+<div class="flex items-center space-x-2">
+<label class="text-sm text-slate-600 w-24 shrink-0">日期范围</label>
+<div class="flex-1 flex items-center space-x-1">
+<input class="flex-1 h-9 border border-slate-200 rounded px-2 text-sm focus:outline-none" type="date" value="2026-05-11"/>
+<span class="text-slate-400">-</span>
+<input class="flex-1 h-9 border border-slate-200 rounded px-2 text-sm focus:outline-none" type="date" value="2026-05-11"/>
+</div>
+</div>
+</div>
+<div class="flex justify-end mt-4 space-x-2">
+<button class="bg-blue-600 text-white px-6 h-9 rounded text-sm font-medium hover:bg-blue-700 transition-colors">查询</button>
+<button class="border border-slate-200 text-slate-600 px-6 h-9 rounded text-sm font-medium hover:bg-slate-50 transition-colors">重置</button>
+<button class="bg-blue-600 text-white px-6 h-9 rounded text-sm font-medium hover:bg-blue-700 transition-colors">导出</button>
+</div>
+</div>
+<!-- 数据表格 -->
+<div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm whitespace-nowrap">
+<thead class="bg-slate-50 text-slate-500 font-medium">
+<tr>
+<th class="px-4 py-3 border-b border-slate-100">车牌号</th>
+<th class="px-4 py-3 border-b border-slate-100">自编号</th>
+<th class="px-4 py-3 border-b border-slate-100">经纬度</th>
+<th class="px-4 py-3 border-b border-slate-100">具体位置</th>
+<th class="px-4 py-3 border-b border-slate-100">收运时间</th>
+<th class="px-4 py-3 border-b border-slate-100">收运重量</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3 font-bold text-blue-600">沪FL0155</td>
+<td class="px-4 py-3 text-slate-500">001</td>
+<td class="px-4 py-3 text-slate-500">121.837205, 30.921667</td>
+<td class="px-4 py-3">老港镇同宏路与新港路交叉口东侧200米</td>
+<td class="px-4 py-3">2026-05-11 06:42:18</td>
+<td class="px-4 py-3 text-weight text-orange-600 font-bold">532KG</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3 font-bold text-blue-600">沪FL0155</td>
+<td class="px-4 py-3 text-slate-500">001</td>
+<td class="px-4 py-3 text-slate-500">121.845302, 30.918204</td>
+<td class="px-4 py-3">老港镇大河村通源路中段路边</td>
+<td class="px-4 py-3">2026-05-11 06:58:12</td>
+<td class="px-4 py-3 text-weight text-orange-600 font-bold">421KG</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3 font-bold text-blue-600">沪FL0155</td>
+<td class="px-4 py-3 text-slate-500">001</td>
+<td class="px-4 py-3 text-slate-500">121.830118, 30.935480</td>
+<td class="px-4 py-3">老港镇南滨路尽头机耕道</td>
+<td class="px-4 py-3">2026-05-11 07:36:40</td>
+<td class="px-4 py-3 text-weight text-orange-600 font-bold">356KG</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3 font-bold text-blue-600">沪FL2312</td>
+<td class="px-4 py-3 text-slate-500">002</td>
+<td class="px-4 py-3 text-slate-500">121.861174, 30.905877</td>
+<td class="px-4 py-3">书院镇外灶村临港大道北侧便道</td>
+<td class="px-4 py-3">2026-05-11 08:05:33</td>
+<td class="px-4 py-3 text-weight text-orange-600 font-bold">634KG</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3 font-bold text-blue-600">沪FL2312</td>
+<td class="px-4 py-3 text-slate-500">002</td>
+<td class="px-4 py-3 text-slate-500">121.852906, 30.912046</td>
+<td class="px-4 py-3">书院镇新港村塘下公路旁空地</td>
+<td class="px-4 py-3">2026-05-11 08:27:19</td>
+<td class="px-4 py-3 text-weight text-orange-600 font-bold">508KG</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3 font-bold text-blue-600">沪FL5678</td>
+<td class="px-4 py-3 text-slate-500">003</td>
+<td class="px-4 py-3 text-slate-500">121.820965, 30.929841</td>
+<td class="px-4 py-3">老港镇东河村同发路南侧巷口</td>
+<td class="px-4 py-3">2026-05-11 08:46:02</td>
+<td class="px-4 py-3 text-weight text-orange-600 font-bold">274KG</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3 font-bold text-blue-600">沪FL5678</td>
+<td class="px-4 py-3 text-slate-500">003</td>
+<td class="px-4 py-3 text-slate-500">121.840523, 30.903677</td>
+<td class="px-4 py-3">书院镇李雪村汇成路西段桥头</td>
+<td class="px-4 py-3">2026-05-11 09:03:27</td>
+<td class="px-4 py-3 text-weight text-orange-600 font-bold">619KG</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3 font-bold text-blue-600">沪FL9090</td>
+<td class="px-4 py-3 text-slate-500">暂未配置</td>
+<td class="px-4 py-3 text-slate-500">121.873215, 30.917406</td>
+<td class="px-4 py-3">书院镇余姚村棉场路北侧</td>
+<td class="px-4 py-3">2026-05-11 09:26:02</td>
+<td class="px-4 py-3 text-weight text-orange-600 font-bold">392KG</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- 分页 -->
+<div class="px-6 py-4 border-t border-slate-50 flex items-center justify-between text-xs text-slate-500">
+<span>共 8 条记录，显示第 1 到 8 条</span>
+<div class="flex space-x-2">
+<button class="px-2 py-1 border rounded hover:bg-slate-50">上一页</button>
+<button class="px-2 py-1 border rounded bg-blue-600 text-white border-blue-600">1</button>
+<button class="px-2 py-1 border rounded hover:bg-slate-50">下一页</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // 导航菜单折叠逻辑
+        document.querySelectorAll('.nav-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const subMenu = header.nextElementSibling;
+                const arrow = header.querySelector('iconify-icon[icon="mdi:chevron-down"]');
+                if (subMenu) {
+                    if (subMenu.classList.contains('hidden')) {
+                        subMenu.classList.remove('hidden');
+                        if (arrow) arrow.classList.add('rotate-180');
+                    } else {
+                        subMenu.classList.add('hidden');
+                        if (arrow) arrow.classList.remove('rotate-180');
+                    }
+                }
+            });
+        });
+
+        // 二级菜单折叠逻辑
+        document.querySelectorAll('.sub-nav-header').forEach(header => {
+            header.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const subMenu = header.nextElementSibling;
+                const arrow = header.querySelector('iconify-icon[icon="mdi:chevron-down"]');
+                if (subMenu) {
+                    if (subMenu.classList.contains('hidden')) {
+                        subMenu.classList.remove('hidden');
+                        arrow.classList.add('rotate-180');
+                    } else {
+                        subMenu.classList.add('hidden');
+                        arrow.classList.remove('rotate-180');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
